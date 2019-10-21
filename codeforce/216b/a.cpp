@@ -39,7 +39,7 @@ int main(){
             result=dfs(i);
             
         }
-        total+=(result%2);
+        total+=(result%2)*(result>1);
         result=0;
     }
     cout<<total;

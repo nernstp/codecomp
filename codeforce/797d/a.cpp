@@ -4,39 +4,66 @@
 using namespace std;
 
 struct TreeNode{
-    int val;
+    long long val;
     TreeNode** left=NULL;
     TreeNode** right=NULL;
     
-    TreeNode(int x):val(x),left(NULL),right(NULL) {};
+    TreeNode(long long x):val(x),left(NULL),right(NULL) {};
     
 };
 
-void TT(set<TreeNode*>* s, TreeNode* root, int val){
+void CompL(set<TreeNode*>* s, TreeNode* root, long long val){
+    
+    if(root){
+        
+        if(root->val>val)
+            s->insert(root);
+        if(root->left)
+            CompL(s,*(root->left),val);
+        if(root->right)
+            CompL(s,*(root->right),val);
+    }
+    
+    return;
+    
+}
+
+void CompR(set<TreeNode*>* s, TreeNode* root, long long val){
+    
+    if(root){
+        
+        if(root->val<val)
+            s->insert(root);
+        if(root->left)
+            CompR(s,*(root->left),val);
+        if(root->right)
+            CompR(s,*(root->right),val);
+    }
+    
+    return;
+    
+}
+
+void TT(set<TreeNode*>* s, TreeNode* root, long long val){
     if(root){
         if(root->left){
-            if((*(root->left))->val>=val)
+            if((*(root->left))->val>val)
                 s->insert(*(root->left));
             TT(s,(*(root->left)),(*(root->left))->val);
-            TT(s,(*(root->left)), val);
-            
+            CompL(s,*(root->left),root->val);
         }
         
         if(root->right){
             if((*(root->right))->val<val)
                 s->insert(*(root->right));
             TT(s,(*(root->right)),(*(root->right))->val);
-            TT(s,(*(root->right)), val);
-            
+            CompR(s,*(root->right),root->val);
         }
             
     }
     
-    
-    
     return;
 }
-
 
 int main(){
     int n;
@@ -45,7 +72,7 @@ int main(){
     vector<bool> ri(n,false);
     
     for(int i=0;i<n;++i){
-        int val,l,r;
+        long long val,l,r;
         cin>>val>>l>>r;
         TreeNode* t=new TreeNode(val);
         if(l>0){
@@ -57,11 +84,7 @@ int main(){
             ri[r-1]=true;
         }
         list[i]=t;
-        
-        
-        
     }
-    
     
     TreeNode* root=NULL;
     for(int i=0;i<n;++i){   
@@ -70,12 +93,13 @@ int main(){
         
         }
     }
+    vector<long long> flatten;
+    vector<bool> fail(n,false);
     
     set<TreeNode*> s;
-    vector<TreeNode*> flat;
     TT(&s, root, root->val);
-    for(set<TreeNode*>::iterator i=s.begin();i!=s.end();++i)
-        cout<<((*i)->val)<<endl;
+    //for(set<TreeNode*>::iterator i=s.begin();i!=s.end();++i)
+        //cout<<((*i)->val)<<endl;
     
     cout<<s.size();
     /*if(root){
