@@ -21,14 +21,14 @@ int main(){
         int j=0;
         while(pow(3,j)<l){
             threes.push_back(pow(3,j));
-            j++;
             
+            j++;
         }
         int k=1;
         while(list[list.size()-1]<n){
-            int sum=0;
+            int sum=1;
             int p=1;
-            for(int m=k;m>0;k>>=1){
+            for(int m=k;m>0;k/=2){
                 if(m&&1){
                     sum+=threes[p];
                     
