@@ -7,18 +7,18 @@ int total=0;
 vector<bool> vis;
 vector<vector<int> > grid;
 
-
-int dfs(int i){
+pair<int,int> dfs(int i){
     vis[i]=true;
-    int r=0;
+    pair<int,int> r=make_pair(0,0);
+    int edge=0;
     for(int j=0;j<grid.size();j++){
-        if(grid[j][i]==1&&!vis[j])
-            r=dfs(j);
-        
+        edge+=grid[j][i];
+        if(grid[j][i]==1&&!vis[j]){
+            pair<int,int> t=dfs(j);
+            r=make_pair(r.first+t.first,r.second+t.second);
+        }
     }
-    return 1+r;
-    
-    
+    return make_pair(r.first+edge,r.second+1);
 }
 
 int main(){
@@ -31,18 +31,16 @@ int main(){
         cin>>a>>b;
         grid[a-1][b-1]=1;
         grid[b-1][a-1]=1;
-        
     }
-    int result=0;
+    pair<int,int> result=make_pair(0,0);
     for(int i=0;i<n;i++){
-        if(!vis[i]){
+        if(!vis[i])
             result=dfs(i);
-            
-        }
-        total+=(result%2)*(result>1);
-        result=0;
+        if(result.first/2==result.second&&result.second&&result.second%2)
+            total++;
+        result=make_pair(0,0);
     }
+    total+=(n-total)%2;
     cout<<total;
-    
     return 0;
 }
