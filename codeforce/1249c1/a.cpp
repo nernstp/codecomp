@@ -20,9 +20,12 @@ int main(){
         int n;
         cin>>n;
         int j=0;
+        long long sum=1;
         while(j<40){
-            threes.push_back(pow(3,j));
+            
+            threes.push_back(sum);
             cout<<threes[threes.size()-1]<<" ";
+            sum*=3;
             j++;
         }
         cout<<endl;
