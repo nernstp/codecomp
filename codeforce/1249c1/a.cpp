@@ -20,9 +20,9 @@ int main(){
         int n;
         cin>>n;
         int j=0;
-        while(pow(3,j)<=l){
+        while(j<40){
             threes.push_back(pow(3,j));
-            cout<<pow(3,j)<<" ";
+            cout<<threes[threes.size()-1]<<" ";
             j++;
         }
         cout<<endl;
