@@ -9,63 +9,57 @@
 
 using namespace std;
 
-vector<long long> threes;
-const long long l=1000000000000000000;
-vector<long long> list;
+
 int main(){
     int q;
     cin>>q;
     for(int i=0;i<q;i++){
-        int n;
+        long long n;
         cin>>n;
-        int j=0;
-        long long sum=1;
-        while(j<40){
-            threes.push_back(sum);
-            // cout<<threes[threes.size()-1]<<" ";
-            sum*=3;
-            j++;
+        
+        long long t=n;
+        vector<int> nums;
+        int idx2=-1;
+
+        long long threes=1;
+        while(t){
+            if((t%3)==2)
+                idx2=nums.size();
+            nums.push_back(t%3);
+
+            t/=3;  
         }
-        long long end=1;
-        long long start=pow(2,30);
-        
-        sum=0;
-        do{
-            sum=0;
-            
-            bitset<64> a(start);
-            for(int j=0;j<a.size()&&j<30;j++){
-                sum+=a[j]*threes[j];
+        if(idx2<0)
+            cout<<n<<endl;
+        else{
+            nums.push_back(0);
+            long long sum=0;
+            for(int j=0;j<=idx2;j++){
+                nums[j]=0;
+                
+
+                threes*=3;
             }
-            start/=2;
-            
-        }while(sum>n);
-        cout<<start<<" "<<sum<<endl;
-        
-                sum=0;
-        do{
-            sum=0;
-            
-            bitset<64> a(end);
-            for(int j=0;j<a.size()&&j<30;j++){
-                sum+=a[j]*threes[j];
+            int j=idx2+1;
+            while(nums[j]){
+                 nums[j]=0;
+                 threes*=3;
+                 j++;
             }
-            end*=2;
+            nums[j]=1;
+
+            while(j<nums.size()){
+                
+                sum+=threes*nums[j];
+                threes*=3;
+                
+                j++;
+
+            }
+            cout<<sum<<endl;
             
-        }while(sum<n);
-        cout<<end<<" "<<sum<<endl;
-        // cout<<endl;
-        // list.clear();
-        // long long k=list.size()+1;
-        // while(list.empty()||list[list.size()-1]<n){
-            // bitset<64> a(k);
-            // long long sum=0;
-            // for(int m=0;m<a.size();m++)
-                // sum+=a[m]*threes[m];
-            // list.push_back(sum);
-            // k++;
-        // }
-        // cout<<list[list.size()-1]<<endl;
+            
+        }
     }
     
     return 0;
